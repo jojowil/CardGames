@@ -8,7 +8,8 @@ import java.util.Scanner;
 public class BlackJack {
     static Scanner kb = new Scanner(System.in);
 
-    public enum Suit {Spades, Hearts, Clubs, Diamonds};
+    // Todo: Hide dealer hole card.
+    public enum Suit {Spades, Hearts, Clubs, Diamonds}
 
     public enum Rank {
         Two(2), Three(3), Four(4), Five(5), Six(6), Seven(7), Eight(8),
@@ -16,7 +17,7 @@ public class BlackJack {
 
         private final int value;
 
-        private Rank (int v) {
+        Rank (int v) {
             value = v;
         }
 
@@ -25,17 +26,7 @@ public class BlackJack {
         }
     }
 
-    private static record Card (Rank r, Suit s) {
-    /*
-    Suit s;
-    Rank r;
-
-    public Card (Rank r, Suit s) {
-      this.s = s;
-      this.r = r;
-    }
-    */
-
+    private record Card (Rank r, Suit s) {
         @Override
         public String toString() {
             return r + " of " + s;
