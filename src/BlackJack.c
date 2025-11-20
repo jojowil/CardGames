@@ -7,12 +7,16 @@
 
 // Todo: Hide dealer hole card.
 
+// Get the value of a given rank (not ordinal!)
 static int getValue(Card c) {return rankVal[c.rank];}
 
+// Convert rank to string.
 static const char *strRank(Rank r) {return ranks[r];}
 
+// Convert suit to string.
 static const char *strSuit(Suit s) {return suits[s];}
 
+// initialize the deck with card ranks and suits.
 static void populateDeck(Deck *d) {
     int card = 0;
     for (Suit s = 0; s < NumSuit; s++) {
@@ -51,12 +55,14 @@ static void shuffle(void *array, size_t n, size_t size) {
     }
 }
 
+// Add a card to hand, removing it from the deck.
 static void addCard(Deck *deck, Deck *hand) {
     hand->cards[hand->numCards++] = deck->cards[deck->deckPos++];
     printf("Num cards: %d\n", hand->numCards);
     printf("deckPos: %d\n", deck->deckPos);
 }
 
+// Alternate dealing 2 cards between player and dealer.
 static void deal (Deck *deck, Deck *d, Deck *p) {
     for (int x = 0; x < 2; x++) {
         addCard(deck, p);
@@ -64,12 +70,14 @@ static void deal (Deck *deck, Deck *d, Deck *p) {
     }
 }
 
+// Function for qsort to compare two int for sorting by card value.
 static int compareInts( const void *a, const void *b ) {
     if ( *(int*)a < *(int*)b ) return -1;
     if ( *(int*)a > *(int*)b ) return 1;
     return 0;
 }
 
+// Determine the value of a hand based on subtotal and Aces.
 static int handValue(Deck hand) {
     int total = 0;
     // No hand should have more than 5 cards...
@@ -92,6 +100,7 @@ static int handValue(Deck hand) {
     return total;
 }
 
+// Print text that represents the hand.
 static void showHand(char* name, Deck hand) {
     printf("========================================\n");
     printf("%s has:\n", name);

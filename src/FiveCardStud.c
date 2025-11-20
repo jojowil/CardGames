@@ -4,10 +4,13 @@
 #include <time.h>
 #include "FiveCardStud.h"
 
+// Convert rank to string.
 static const char *strRank(Rank r) {return ranks[r];}
 
+// Convert suit to string.
 static const char *strSuit(Suit s) {return suits[s];}
 
+// initialize the deck with card ranks and suits.
 static void populateDeck(Deck *d) {
     int card = 0;
     for (Suit s = 0; s < NumSuit; s++) {
@@ -46,8 +49,8 @@ static void shuffle(void *array, size_t n, size_t size) {
     }
 }
 
+// Determine the hand's rank.
 static void handRanking(Deck h) {
-
     if (isRoyalFlush(h) )
         printf("Royal Flush\n");
     else if (isStraightFlush(h))
@@ -70,12 +73,14 @@ static void handRanking(Deck h) {
         printf("%s of %s high\n", strRank(h.cards[4].rank), strSuit(h.cards[4].suit));
 }
 
+// Add a card to hand, removing it from the deck.
 static void addCard(Deck *deck, Deck *hand) {
     hand->cards[hand->numCards++] = deck->cards[deck->deckPos++];
     printf("Num cards: %d\n", hand->numCards);
     printf("deckPos: %d\n", deck->deckPos);
 }
 
+// Alternate dealing 5 cards between player and dealer.
 static void deal (Deck *deck, Deck *d, Deck *p) {
     for (int x = 0; x < 5; x++) {
         addCard(deck, p);
@@ -83,12 +88,14 @@ static void deal (Deck *deck, Deck *d, Deck *p) {
     }
 }
 
+// Function for qsort to compare two cards for sorting by rank.
 static int compareCards( const void *a, const void *b ) {
     if ( ((Card*)a)->rank < ((Card*)b)->rank ) return -1;
     if ( ((Card*)a)->rank > ((Card*)b)->rank ) return 1;
     return 0;
 }
 
+// Print text that represents the hand.
 static void showHand(char* name, Deck hand) {
     printf("========================================\n");
     printf("%s has:\n", name);
@@ -96,6 +103,7 @@ static void showHand(char* name, Deck hand) {
         printf("%s of %s\n", strRank(hand.cards[x].rank), strSuit(hand.cards[x].suit));
 }
 
+// Check if hand is a flush
 static int isFlush(Deck h) {
     Suit s = h.cards[0].suit;
 
@@ -106,6 +114,7 @@ static int isFlush(Deck h) {
     return 1;
 }
 
+// Check if hand is a straight
 static int isStraight(Deck h) {
     int r = h.cards[0].rank;
 
@@ -116,14 +125,17 @@ static int isStraight(Deck h) {
     return 1;
 }
 
+// Check if a hand is a straight flush
 static int isStraightFlush(Deck h) {
     return isFlush(h) && isStraight(h);
 }
 
+// Check if a hand is a royal flush
 static int isRoyalFlush(Deck h) {
     return isStraightFlush(h) && h.cards[0].rank == Ten;
 }
 
+// Check if a hand has 4 of a kind
 static int is4OfAKind(Deck h) {
     Rank r1 = h.cards[0].rank;
     Rank r2 = h.cards[1].rank;
@@ -134,6 +146,7 @@ static int is4OfAKind(Deck h) {
     return (r1 == r2 && r2 == r3 && r3 == r4) || (r2 == r3 && r3 == r4 && r4 == r5);
 }
 
+// Check is a hand is a full house
 static int isFullHouse(Deck h) {
     Rank r1 = h.cards[0].rank;
     Rank r2 = h.cards[1].rank;
@@ -144,6 +157,7 @@ static int isFullHouse(Deck h) {
     return ((r1 == r2) && (r3 == r4 && r4 == r5)) || ((r1 == r2 && r2 == r3) && (r4 == r5));
 }
 
+// Check is a hand has 3 of a kind
 static int is3OfAKind(Deck h) {
     Rank r1 = h.cards[0].rank;
     Rank r2 = h.cards[1].rank;
@@ -154,6 +168,7 @@ static int is3OfAKind(Deck h) {
     return (r1 == r2 && r2 == r3) || (r2 == r3 && r3 == r4) || (r3 == r4 && r4 == r5);
 }
 
+// Check is a hand has two pair
 static int isTwoPair(Deck h) {
     Rank r1 = h.cards[0].rank;
     Rank r2 = h.cards[1].rank;
@@ -165,6 +180,7 @@ static int isTwoPair(Deck h) {
             ((r2 == r3) && (r4 == r5));
 }
 
+// Check if a hand has a pair
 static int isPair(Deck h) {
     Rank r1 = h.cards[0].rank;
     Rank r2 = h.cards[1].rank;
