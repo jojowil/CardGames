@@ -45,6 +45,7 @@ static void populateDeck(Deck *d);
 static void shuffle(void *array, size_t n, size_t size);
 static void addCard(Deck *deck, Deck *hand);
 static void deal (Deck *deck, Deck *d, Deck *p);
+static int compareCards( const void *a, const void *b );
 static void showHand(char* name, Deck hand);
 
 static int isFlush(Deck h);
