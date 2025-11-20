@@ -3,16 +3,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-//import java.util.Arrays;
-import java.util.Scanner;
-
 
 public class FiveCardStud {
-    static Scanner kb = new Scanner(System.in);
+    public enum Suit {Spades, Hearts, Clubs, Diamonds}
 
-    public enum Suit {Spades, Hearts, Clubs, Diamonds};
-
-    public enum Rank {Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace};
+    public enum Rank {Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace}
 
     private static class CardComparator implements Comparator<Card> {
 
@@ -38,9 +33,9 @@ public class FiveCardStud {
     }
 
     public static void main(String[] args) {
-        LinkedList<Card> deck = new LinkedList<Card>();
-        ArrayList<Card> dealer = new ArrayList<Card>();
-        ArrayList<Card> player = new ArrayList<Card>();
+        LinkedList<Card> deck = new LinkedList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        ArrayList<Card> player = new ArrayList<>();
 
         // populate the deck
         for (Suit suit : Suit.values())
@@ -70,7 +65,6 @@ public class FiveCardStud {
         handRanking(dealer);
         System.out.print("Player has ");
         handRanking(player);
-
     }
 
     private static void handRanking(ArrayList<Card> h) {
@@ -112,7 +106,7 @@ public class FiveCardStud {
     }
 
     private static boolean isFlush(ArrayList<Card> h) {
-        Suit s = h.get(0).s;
+        Suit s = h.getFirst().s;
 
         for (int x = 1; x < 5; x++)
             if (h.get(x).s != s)
@@ -122,7 +116,7 @@ public class FiveCardStud {
     }
 
     private static boolean isStraight(ArrayList<Card> h) {
-        int r = h.get(0).r.ordinal();
+        int r = h.getFirst().r.ordinal();
 
         for (int x = 1; x < 5; x++)
             if (h.get(x).r.ordinal() != r+x)
@@ -132,80 +126,61 @@ public class FiveCardStud {
     }
 
     private static boolean isStraightFlush(ArrayList<Card> h) {
-
         return isFlush(h) && isStraight(h);
     }
 
     private static boolean isRoyalFlush(ArrayList<Card> h) {
-
-        return isStraightFlush(h) && h.get(0).r == Rank.Ten;
+        return isStraightFlush(h) && h.getFirst().r == Rank.Ten;
     }
 
-    public static boolean is4OfAKind(ArrayList<Card> h) {
+    private static boolean is4OfAKind(ArrayList<Card> h) {
         Rank r1 = h.get(0).r;
         Rank r2 = h.get(1).r;
         Rank r3 = h.get(2).r;
         Rank r4 = h.get(3).r;
         Rank r5 = h.get(4).r;
 
-        if ( (r1 == r2 && r2 == r3 && r3 == r4) || (r2 == r3 && r3 == r4 && r4 == r5) )
-            return true;
-
-        return false;
+        return (r1 == r2 && r2 == r3 && r3 == r4) || (r2 == r3 && r3 == r4 && r4 == r5);
     }
 
-    public static boolean isFullHouse(ArrayList<Card> h) {
+    private static boolean isFullHouse(ArrayList<Card> h) {
         Rank r1 = h.get(0).r;
         Rank r2 = h.get(1).r;
         Rank r3 = h.get(2).r;
         Rank r4 = h.get(3).r;
         Rank r5 = h.get(4).r;
 
-        if ( ((r1 == r2) &&  (r3 == r4 && r4 == r5)) || ((r1 == r2 && r2 == r3) && (r4 == r5)) )
-            return true;
-
-        return false;
+        return ((r1 == r2) && (r3 == r4 && r4 == r5)) || ((r1 == r2 && r2 == r3) && (r4 == r5));
     }
 
-    public static boolean is3OfAKind(ArrayList<Card> h) {
+    private static boolean is3OfAKind(ArrayList<Card> h) {
         Rank r1 = h.get(0).r;
         Rank r2 = h.get(1).r;
         Rank r3 = h.get(2).r;
         Rank r4 = h.get(3).r;
         Rank r5 = h.get(4).r;
 
-        if ( (r1 == r2 && r2 == r3) || (r2 == r3 && r3 == r4) || (r3 == r4 && r4 == r5) )
-            return true;
-
-        return false;
+        return (r1 == r2 && r2 == r3) || (r2 == r3 && r3 == r4) || (r3 == r4 && r4 == r5);
     }
 
-    public static boolean isTwoPair(ArrayList<Card> h) {
+    private static boolean isTwoPair(ArrayList<Card> h) {
         Rank r1 = h.get(0).r;
         Rank r2 = h.get(1).r;
         Rank r3 = h.get(2).r;
         Rank r4 = h.get(3).r;
         Rank r5 = h.get(4).r;
 
-
-        if ( (r1 == r2) && ((r3 == r4) || (r4 == r5)) ||
-                ((r2 == r3) && (r4 == r5)) )
-            return true;
-
-        return false;
+        return (r1 == r2) && ((r3 == r4) || (r4 == r5)) ||
+                ((r2 == r3) && (r4 == r5));
     }
 
-    public static boolean isPair(ArrayList<Card> h) {
+    private static boolean isPair(ArrayList<Card> h) {
         Rank r1 = h.get(0).r;
         Rank r2 = h.get(1).r;
         Rank r3 = h.get(2).r;
         Rank r4 = h.get(3).r;
         Rank r5 = h.get(4).r;
 
-
-        if ( (r1 == r2) || (r2 == r3) || (r3 == r4) || (r4 == r5) )
-            return true;
-
-        return false;
+        return (r1 == r2) || (r2 == r3) || (r3 == r4) || (r4 == r5);
     }
 }
