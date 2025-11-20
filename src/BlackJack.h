@@ -41,5 +41,10 @@ static const char *strRank(Rank r);
 static const char *strSuit(Suit s);
 static void populateDeck(Deck *d);
 static void shuffle(void *array, size_t n, size_t size);
+static void addCard(Deck *deck, Deck *hand);
+static void deal (Deck *deck, Deck *d, Deck *p);
+static int compareInts( const void *a, const void *b );
+static int handValue(Deck hand);
+static void showHand(char* name, Deck hand);
 
 #endif //CARDGAMES_BLACKJACK_H
