@@ -3,9 +3,54 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-#include "BlackJack.h"
 
 // Todo: Hide dealer hole card.
+
+// Suits enumeration.
+typedef enum {Spades, Hearts, Clubs, Diamonds, NumSuit} Suit;
+
+// Ranks enumeration.
+typedef enum {
+    Two, Three, Four, Five, Six, Seven, Eight,
+    Nine, Ten, Jack, Queen, King, Ace, NumRank
+} Rank;
+
+// Card definition.
+typedef struct {
+    Rank rank;
+    Suit suit;
+} Card;
+
+// A deck of cards.
+typedef struct {
+    Card cards[52];
+    int numCards;
+    int deckPos;
+} Deck;
+
+// A player's hand. (UNUSED)
+typedef struct {
+    Card cards[10];
+    int numCards;
+} Hand;
+
+const char* ranks[] = {
+    "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
+    "Nine", "Ten", "Jack", "Queen", "King", "Ace"
+};
+int rankVal[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
+const char* suits[] = {"Spades", "Hearts", "Clubs", "Diamonds"};
+
+static int getValue(Card c);
+static const char *strRank(Rank r);
+static const char *strSuit(Suit s);
+static void populateDeck(Deck *d);
+static void shuffle(void *array, size_t n, size_t size);
+static void addCard(Deck *deck, Deck *hand);
+static void deal (Deck *deck, Deck *d, Deck *p);
+static int compareInts( const void *a, const void *b );
+static int handValue(Deck hand);
+static void showHand(char* name, Deck hand);
 
 // Get the value of a given rank (not ordinal!)
 static int getValue(Card c) {return rankVal[c.rank];}
