@@ -95,9 +95,11 @@ static void shuffle(void *array, size_t n, size_t size) {
             size_t rnd = (size_t) rand();
             size_t j = i + rnd / (RAND_MAX / (n - i) + 1);
 
-            memcpy(tmp, arr + j * stride, size);
-            memcpy(arr + j * stride, arr + i * stride, size);
-            memcpy(arr + i * stride, tmp, size);
+            if ( i != j) { // avoid overlap! reported by valgrind
+                memcpy(tmp, arr + j * stride, size);
+                memcpy(arr + j * stride, arr + i * stride, size);
+                memcpy(arr + i * stride, tmp, size);
+            }
         }
     }
 }
